@@ -51,7 +51,7 @@ bool round_robin(dyn_array_t *ready_queue, ScheduleResult_t *result, size_t quan
 // \param ready queue a dyn_array of type ProcessControlBlock_t that contain be up to N elements
 // \param result used for shortest job first stat tracking \ref ScheduleResult_t
 // \return true if function ran successful else false for an error
-bool shortest_job_first(dyn_array_t *ready_queue, ScheduleResult_t *result);
+bool shortest_remaining_time_first(dyn_array_t *ready_queue, ScheduleResult_t *result);
 
 #ifdef __cplusplus
 }

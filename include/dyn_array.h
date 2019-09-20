@@ -45,7 +45,7 @@ typedef struct dyn_array dyn_array_t;
 dyn_array_t *dyn_array_create(const size_t capacity, const size_t data_type_size, void (*destruct_func)(void *));
 
 ///
-/// Creates a new dynamic array from a given array
+/// Creates a new dynamic array from a given array 
 /// (Given pointer can be freed after import, we copy the data)
 /// \param data The data to import
 /// \param count Number of objects to import
