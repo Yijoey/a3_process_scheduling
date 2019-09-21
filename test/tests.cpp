@@ -86,17 +86,25 @@ TEST(first_come_first_serve, nullResultAndNullReadyQueue){
 	EXPECT_EQ(false,res);
 }
 
-// TEST(first_come_first_serve, goodInput){
-//      ScheduleResult_t *sr = new ScheduleResult_t;
-//      dyn_array_t* da = dyn_array_create(0,sizeof(ProcessControlBlock_t),NULL);
-//      memset(sr,0,sizeof(ScheduleResult_t));
-// 	    bool res = first_come_first_serve (da,sr);	
-// 	    EXPECT_EQ(times[0],sr->average_wall_clock_time);
-// 	    EXPECT_EQ(times[1],sr->average_latency_time);
-// 	    EXPECT_EQ(times[2],sr->total_run_time);
-// 	    dyn_array_destroy(da);
-// 	    delete sr;
-// }
+TEST(first_come_first_serve, goodInput){
+        ScheduleResult_t *sr = new ScheduleResult_t;
+        dyn_array_t* da = dyn_array_create(0,sizeof(ProcessControlBlock_t),NULL);
+        memset(sr,0,sizeof(ScheduleResult_t));
+        ProcessControlBlock_t times[] = {{4,0,false},{7,0,false},{3,0,false}
+        };	
+        dyn_array_push_back(da,&times[2]);
+        dyn_array_push_back(da,&times[1]);
+        dyn_array_push_back(da,&times[0]);
+        bool res = first_come_first_serve (da,sr);
+        ASSERT_EQ(true,res);  // stop if not
+
+        float answers[3] = {5,9.67,14};
+	    EXPECT_EQ(answers[0],sr->average_latency_time);
+	    EXPECT_EQ(answers[1],sr->average_wall_clock_time);
+	    EXPECT_EQ(answers[2],sr->total_run_time);
+	    dyn_array_destroy(da);
+	    delete sr;
+}
 
 /*
 bool priority(dyn_array_t *ready_queue, ScheduleResult_t *result);
@@ -123,6 +131,26 @@ TEST(priority, nullResultAndNullReadyQueue){
 	EXPECT_EQ(false,res);
 }
 
+
+TEST(priority, goodInput){
+        ScheduleResult_t *sr = new ScheduleResult_t;
+        dyn_array_t* da = dyn_array_create(0,sizeof(ProcessControlBlock_t),NULL);
+        memset(sr,0,sizeof(ScheduleResult_t));
+        ProcessControlBlock_t times[] = {{4,1,false},{7,2,false},{3,3,false}
+        };	
+        dyn_array_push_back(da,&times[2]);
+        dyn_array_push_back(da,&times[1]);
+        dyn_array_push_back(da,&times[0]);
+        bool res = priority (da,sr);
+        ASSERT_EQ(true,res);  // stop if not
+
+        float answers[3] = {4.33,9,14};
+	    EXPECT_EQ(answers[0],sr->average_latency_time);
+	    EXPECT_EQ(answers[1],sr->average_wall_clock_time);
+	    EXPECT_EQ(answers[2],sr->total_run_time);
+	    dyn_array_destroy(da);
+	    delete sr;
+}
 
 /*
 bool round_robin(dyn_array_t *ready_queue, ScheduleResult_t *result, size_t quantum);
@@ -184,6 +212,26 @@ TEST(shortest_remaining_time_first , nullReadyQueueAndNullResult){
     ScheduleResult_t* sr = NULL;
     bool res = shortest_remaining_time_first(da,sr);
     EXPECT_EQ(false, res);
+}
+
+TEST(shortest_remaining_time_first, goodInput){
+        ScheduleResult_t *sr = new ScheduleResult_t;
+        dyn_array_t* da = dyn_array_create(0,sizeof(ProcessControlBlock_t),NULL);
+        memset(sr,0,sizeof(ScheduleResult_t));
+        ProcessControlBlock_t times[] = {{4,0,false},{7,0,false},{3,0,false}
+        };	
+        dyn_array_push_back(da,&times[2]);
+        dyn_array_push_back(da,&times[1]);
+        dyn_array_push_back(da,&times[0]);
+        bool res = shortest_remaining_time_first (da,sr);
+        ASSERT_EQ(true,res);  // stop if not
+
+        float answers[3] = {3.33,8,14};
+	    EXPECT_EQ(answers[0],sr->average_latency_time);
+	    EXPECT_EQ(answers[1],sr->average_wall_clock_time);
+	    EXPECT_EQ(answers[2],sr->total_run_time);
+	    dyn_array_destroy(da);
+	    delete sr;
 }
 
 
